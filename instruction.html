@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - DataViz Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" xintegrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" href="des.png" type="image/png"> 
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #341c21; /* Dark Maroon fallback */
+            /* Removed background-image, background-size, background-position, background-repeat, background-attachment */
+            color: #fff;
+            padding-top: 70px; /* Add padding to accommodate the fixed navbar */
+            padding-bottom: 30px; /* Keep existing bottom padding */
+        }
+        /* New Tabbed Navbar Styles */
+        .nav-tabs {
+            background-color: rgba(52, 28, 33, 0.5); /* Transparent Dark Maroon for tab background */
+            border-bottom: 1px solid #7e57c2; /* Purple border */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1020;
+            padding: 0 20px; /* Add some horizontal padding */
+            display: flex; /* Use flexbox for centering */
+            justify-content: center; /* Center the tabs */
+        }
+        .nav-item {
+            margin-bottom: 0; /* Remove default margin from nav-item */
+            margin: 0 10px; /* Add horizontal margin between nav items */
+        }
+        .nav-link {
+            color: #f3e5f5 !important; /* Lite Purple for inactive links */
+            border: none !important;
+            border-radius: 0 !important;
+            /* Decreased padding to reduce overall height */
+            padding: 10px 15px; /* Reduced from 15px 20px */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            text-decoration: none; /* Ensure links don't have default underline */
+            display: flex; /* Use flexbox for icon and text alignment */
+            align-items: center; /* Vertically align icon and text */
+        }
+        .nav-link i {
+            margin-right: 8px; /* Space between icon and text */
+            font-size: 1.0em; /* Slightly smaller icon to match reduced padding */
+        }
+        .nav-link.active {
+            background-color: rgba(74, 20, 140, 0.5) !important; /* Transparent Darker purple for active tab */
+            color: white !important;
+            border-bottom: 3px solid #ce93d8 !important; /* Highlight active tab */
+            font-weight: bold;
+        }
+        /* Specific style for direct nav-links (Home, Profile, Contact) to remove hover background */
+        .nav-item:not(.dropdown) .nav-link:hover:not(.active) {
+            background-color: rgba(74, 20, 140, 0.2); /* Very subtle transparent darker purple on hover */
+            color: white !important; /* Keep text white on hover */
+        }
+        .tab-content {
+            padding: 20px; /* Padding for the tab content area */
+            background-color: transparent; /* Keep content background transparent */
+        }
+        /* Dropdown specific styles */
+        .nav-item.dropdown .nav-link.dropdown-toggle {
+            /* Ensure dropdown toggle looks like a tab */
+            color: #f3e5f5 !important;
+            border: none !important;
+            border-radius: 0 !important;
+            /* Decreased padding to match other nav links */
+            padding: 10px 15px; /* Reduced from 15px 20px */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .nav-item.dropdown .nav-link.dropdown-toggle:hover {
+            background-color: rgba(74, 20, 140, 0.2); /* Transparent darker purple on hover */
+            color: white !important;
+        }
+        .nav-item.dropdown .dropdown-menu {
+            background-color: rgba(52, 28, 33, 0.9); /* More opaque transparent dark maroon for dropdown menu */
+            border: none;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            margin-top: 0; /* Align dropdown directly below the tab */
+            border-radius: 0 0 8px 8px; /* Rounded corners only at bottom */
+        }
+        .nav-item.dropdown .dropdown-item {
+            color: white; /* White for dropdown items */
+            transition: background-color 0.2s ease;
+            padding: 10px 20px;
+        }
+        .nav-item.dropdown .dropdown-item:hover {
+            background-color: rgba(74, 20, 140, 0.5); /* Even darker transparent purple on hover */
+            color: white;
+        }
+        .nav-item.dropdown .dropdown-divider {
+            border-top-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* End New Tabbed Navbar Styles */
+
+
+        .main-content-container { /* New class for the main content boxes */
+            background-color: rgba(52, 28, 33, 0.7); /* Maroon transparent color */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 900px; /* Adjust width for better readability */
+            margin: 50px auto; /* Center the container */
+        }
+        h1, h2 {
+            color: #f3e5f5; /* Lite Purple for headings */
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #e0e0e0; /* Lighter text for content */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        ul, ol {
+            list-style: none; /* Remove default list styling */
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.05); /* Subtle background for list items */
+            padding: 15px 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        li:hover {
+            transform: translateY(-3px);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .list-icon {
+            font-size: 1.5em;
+            color: #ce93d8; /* Lite Purple for icons */
+            margin-right: 15px;
+            min-width: 30px; /* Ensure consistent spacing */
+            text-align: center;
+        }
+
+        .step-list ol {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .step-list li {
+            background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            align-items: flex-start; /* Align icon and text at the top */
+        }
+        .step-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #9c27b0; /* Purple for step numbers */
+            margin-right: 15px;
+            min-width: 40px; /* Ensure consistent spacing */
+            text-align: center;
+        }
+        .step-content {
+            flex-grow: 1;
+            color: #e0e0e0;
+        }
+
+        .btn-start {
+            margin-top: 30px;
+            background-color: #9c27b0; /* Purple */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px; /* More rounded */
+            font-size: 1.2em;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: block; /* Make it a block element to center with margin auto */
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 300px; /* Limit button width */
+            text-align: center;
+        }
+        .btn-start:hover {
+            background-color: #7b1fa2; /* Darker purple on hover */
+            text-decoration: none;
+            transform: translateY(-3px); /* Slight lift effect */
+        }
+
+        .header-section {
+            background-color: rgba(74, 20, 140, 0.8); /* Darker purple with transparency */
+            padding: 20px 40px; /* Space on sides and top/bottom */
+            margin-bottom: 50px; /* Space below the header */
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-align: center;
+            color: white;
+            margin-top: 30px; /* Add margin-top to push it below the fixed navbar */
+        }
+        .header-section h1 {
+            color: white; /* Ensure header title is white */
+            margin-bottom: 10px;
+        }
+        .header-section p {
+            color: #f3e5f5; /* Lighter purple for header paragraph */
+            font-size: 1.2em;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+        /* Removed .video-container and .video-container video styles */
+        .upload-data-button { /* Changed class name */
+            margin-top: 30px;
+            background-color: transparent; /* Transparent background */
+            border: 2px solid #ce93d8; /* Lite Purple border */
+            color: #ce93d8; /* Lite Purple text */
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.2em;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 250px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer; /* Indicate it's clickable */
+        }
+        .upload-data-button:hover {
+            background-color: #ce93d8; /* Lite Purple fill on hover */
+            transform: translateY(-3px);
+            color: #341c21; /* Dark Maroon text on hover */
+        }
+        .note-text {
+            color: #e0e0e0;
+            font-size: 1.1em;
+            text-align: center;
+            margin-top: 30px;
+            font-style: italic;
+        }
+        /* Message box for alerts */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(74, 20, 140, 0.9);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            display: none; /* Hidden by default */
+            text-align: center;
+        }
+        .message-box button {
+            background-color: transparent; /* Transparent background */
+            border: 1px solid #ce93d8; /* Lite Purple border */
+            color: #ce93d8; /* Lite Purple text */
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .message-box button:hover {
+            background-color: #ce93d8; /* Lite Purple fill on hover */
+            color: #341c21; /* Dark Maroon text on hover */
+        }
+        /* Modal styles */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1040; /* Higher than navbar */
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .custom-modal-content {
+            background-color: #341c21; /* Dark Maroon */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 500px;
+            color: white;
+            position: relative;
+        }
+        .custom-modal-content h2 {
+            color: #f3e5f5;
+            margin-bottom: 20px;
+        }
+        .custom-modal-content .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            color: #ce93d8; /* Lite Purple for close button */
+            cursor: pointer;
+        }
+        .custom-modal-content .close-btn:hover {
+            color: #f3e5f5; /* Lighter on hover */
+        }
+        .profile-info p {
+            text-align: left;
+            margin-bottom: 10px;
+            color: #e0e0e0;
+        }
+        .profile-info i {
+            margin-right: 10px;
+            color: #ce93d8;
+        }
+        .dashboard-list {
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+        }
+        .dashboard-list h3 {
+            color: #ce93d8;
+            text-align: left;
+            margin-bottom: 15px;
+        }
+        .dashboard-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .dashboard-list li {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .dashboard-list li i {
+            margin-right: 10px;
+            color: #ce93d8;
+        }
+        .contact-details p {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+        .contact-details a {
+            color: #ce93d8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .contact-details a:hover {
+            text-decoration: underline;
+        }
+        .contact-details .btn-primary { /* Specific style for the mailto button in contact modal */
+            background-color: transparent; /* Transparent background */
+            border: 2px solid #ce93d8; /* Lite Purple border */
+            color: #ce93d8; /* Lite Purple text */
+            border-radius: 8px;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .contact-details .btn-primary:hover {
+            background-color: #ce93d8; /* Lite Purple fill on hover */
+            color: #341c21; /* Dark Maroon text on hover */
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: rgba(52, 28, 33, 0.8); /* Dark Maroon transparent */
+            color: #f3e5f5; /* Lite Purple text */
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(126, 87, 194, 0.3); /* Subtle purple border */
+            margin-top: 50px;
+            border-radius: 15px 15px 0 0; /* Rounded top corners */
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+        }
+        footer .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        footer h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        footer p {
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+        footer .footer-links {
+            margin-bottom: 20px;
+        }
+        footer .footer-links a {
+            color: #ce93d8; /* Lite Purple for links */
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1em;
+            transition: color 0.3s ease, transform 0.2s ease;
+            display: inline-block; /* For transform */
+        }
+        footer .footer-links a:hover {
+            color: white; /* White on hover */
+            transform: translateY(-2px);
+        }
+        footer .social-icons {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        footer .social-icons a {
+            color: #ce93d8; /* Lite Purple for icons */
+            font-size: 1.8em;
+            margin: 0 12px;
+            transition: color 0.3s ease, transform 0.2s ease;
+            display: inline-block; /* For transform */
+        }
+        footer .social-icons a:hover {
+            color: white; /* White on hover */
+            transform: scale(1.1);
+        }
+        footer .copyright {
+            font-size: 0.85em;
+            color: #b0b0b0; /* Slightly darker grey for copyright */
+            margin-top: 20px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .nav-tabs {
+                padding: 0 5px; /* Reduce padding on smaller screens */
+                flex-wrap: wrap; /* Allow tabs to wrap to the next line */
+                justify-content: space-around; /* Distribute space more evenly when wrapped */
+            }
+            .nav-item {
+                margin: 5px 5px; /* Reduce margin between items on small screens */
+            }
+            .nav-link {
+                padding: 8px 10px; /* Further reduce padding for smaller tabs */
+                font-size: 0.9em; /* Slightly smaller font size */
+            }
+            .nav-link i {
+                margin-right: 5px; /* Reduce space between icon and text */
+                font-size: 0.9em;
+            }
+            body {
+                padding-top: 60px; /* Adjust padding for potentially shorter navbar */
+            }
+            .header-section {
+                margin-top: 20px; /* Adjust header margin for smaller screens */
+                padding: 15px 20px;
+            }
+            .header-section h1 {
+                font-size: 1.8em;
+            }
+            .header-section p {
+                font-size: 1em;
+            }
+            .main-content-container {
+                padding: 20px; /* Reduce padding for content containers on small screens */
+            }
+            h1 {
+                font-size: 2em; /* Adjust heading sizes for mobile */
+            }
+            h2 {
+                font-size: 1.6em;
+            }
+            p {
+                font-size: 1em;
+            }
+            .list-icon {
+                font-size: 1.2em;
+                margin-right: 10px;
+            }
+            .step-number {
+                font-size: 1.5em;
+                min-width: 30px;
+            }
+            .upload-data-button {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            .custom-modal-content {
+                padding: 20px;
+            }
+            .contact-details .btn-primary {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+            footer {
+                padding: 30px 15px;
+            }
+            footer .footer-links a {
+                margin: 0 10px;
+            }
+            footer .social-icons a {
+                font-size: 1.6em;
+                margin: 0 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-link {
+                padding: 6px 8px; /* Even smaller padding for very small screens */
+                font-size: 0.8em;
+            }
+            .nav-link i {
+                margin-right: 3px;
+                font-size: 0.8em;
+            }
+            .nav-item {
+                margin: 3px 3px;
+            }
+            h1 {
+                font-size: 1.5em; /* Adjust heading sizes for mobile */
+            }
+            h2 {
+                font-size: 1.2em;
+            }
+            p {
+                font-size: 0.9em;
+            }
+            .list-icon {
+                font-size: 1.0em;
+                margin-right: 8px;
+            }
+            .step-number {
+                font-size: 1.2em;
+                min-width: 25px;
+            }
+            .upload-data-button {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+            footer {
+                padding: 20px 10px;
+            }
+            footer .footer-links a, footer .social-icons a {
+                margin: 0 5px;
+                font-size: 0.8em;
+            }
+            footer .social-icons a {
+                font-size: 1.4em;
+            }
+            .custom-modal-content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar fixed-top">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" href="dashboard.html"><i class="fas fa-home"></i> Home</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="profile-modal-btn" href="#"><i class="fas fa-user"></i> Profile</a>
+        </li>
+        <li class="nav-item dropdown" role="presentation">
+            <a class="nav-link dropdown-toggle" id="most-usage-categories-tab" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                <i class="fas fa-chart-pie"></i> Most Usage Categories
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="most-usage-categories-tab">
+                <li><a class="dropdown-item" href="#">Marketing Campaign Performance</a></li>
+                <li><a class="dropdown-item" href="#">Business Analytics Overview</a></li>
+                <li><a class="dropdown-item" href="#">Sales Pipeline Tracker</a></li>
+                <li><a class="dropdown-item" href="#">Financial Summary</a></li>
+                <li><a class="dropdown-item" href="#">Customer Feedback Analysis</a></li>
+                <li><a class="dropdown-item" href="#">Project Management</a></li>
+                <li><a class="dropdown-item" href="#">Social Media Engagement</a></li>
+            </ul>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="contact-modal-btn" href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+        <div class="header-section">
+            <h1>Welcome to DataViz Generator!</h1>
+            <p>Unleash the true potential of your data! Simply upload your Excel-formatted file, and witness the magic as we transform your raw numbers into stunning, insightful dashboards, instantly ready to empower your decisions.</p>
+        </div>
+
+        <div class="main-content-container">
+            <p>Thank you for choosing our platform. We help you turn raw datasets into insightful, interactive dashboards — <strong>without writing a single line of code</strong>.</p>
+
+            <h2>🔍 What You Can Do Here</h2>
+            <ul>
+                <li><span class="list-icon"><i class="fas fa-upload"></i></span> Upload data in CSV or Excel format</li>
+                <li><span class="list-icon"><i class="fas fa-palette"></i></span> Select from a variety of dashboard templates</li>
+                <li><span class="list-icon"><i class="fas fa-cogs"></i></span> Customize charts, tables, and visuals</li>
+                <li><span class="list-icon"><i class="fas fa-share-alt"></i></span> Download or share your dashboards</li>
+            </ul>
+
+            <button id="upload-data-btn" class="upload-data-button">Upload Your Data</button>
+            <input type="file" id="file-input" accept=".csv, .xls, .xlsx" style="display: none;">
+
+        </div>
+
+        <div class="main-content-container">
+            <h2>🚀 Your Journey to Insight Starts Now!</h2>
+            <p>
+                Getting started with DataViz Generator is incredibly straightforward. Simply **upload your data** in CSV or Excel format, and our intelligent system will guide you through selecting the perfect dashboard template. From there, unleash your creativity by **customizing charts and visuals** with intuitive controls. Finally, effortlessly **export or share** your stunning new dashboards to empower your team and stakeholders. It's truly visualization made simple!
+            </p>
+            <p class="note-text">Let's build your customized dashboard by hitting the "Upload Your Data" button mentioned above.</p>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+        </div>
+</div>
+
+<div id="profile-modal-overlay" class="custom-modal-overlay">
+    <div class="custom-modal-content">
+        <button class="close-btn" id="profile-close-btn">&times;</button>
+        <h2><i class="fas fa-user-circle"></i> Your Profile</h2>
+        <div class="profile-info">
+            <p><i class="fas fa-id-badge"></i> <strong>User ID:</strong> <span id="user-id-display">Guest User</span></p>
+            <p><i class="fas fa-envelope"></i> <strong>Email:</strong> <span id="user-email-display">guest@example.com</span></p>
+            <div class="dashboard-list">
+                <h3><i class="fas fa-chart-line"></i> Your Dashboards</h3>
+                <ul id="user-dashboards-list">
+                    </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="contact-modal-overlay" class="custom-modal-overlay">
+    <div class="custom-modal-content">
+        <button class="close-btn" id="contact-close-btn">&times;</button>
+        <h2><i class="fas fa-headset"></i> Contact Us</h2>
+        <div class="contact-details">
+            <p>We are here to help you unlock the full potential of your data. Whether you have questions, feedback, or need assistance, feel free to reach out!</p>
+            <p>Our DataViz Generator is designed to simplify complex data into beautiful, actionable insights, empowering you to make informed decisions effortlessly.</p>
+            <p>For direct inquiries or support, please click the link below:</p>
+            <a href="mailto:admin@datavizgenerator.com?subject=Inquiry%20from%20DataViz%20Generator" class="btn btn-primary">Go to Admin Contacts</a>
+        </div>
+    </div>
+</div>
+
+<div id="message-box" class="message-box">
+    <p id="message-content"></p>
+    <button id="message-ok-btn">OK</button>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <h4>DataViz Generator</h4>
+        <p>
+            Transforming raw data into clear, actionable insights. Empower your decisions with stunning, interactive dashboards, effortlessly.
+        </p>
+        <div class="footer-links">
+            <a href="dashboard.html">Home</a>
+            <a href="#" id="footer-profile-link">Profile</a>
+            <a href="#" id="footer-contact-link">Contact</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="social-icons">
+            <a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.github.com" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+        <p class="copyright">&copy; 2024 DataViz Generator. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script>
+    const uploadDataBtn = document.getElementById('upload-data-btn');
+    const fileInput = document.getElementById('file-input');
+    const messageBox = document.getElementById('message-box');
+    const messageContent = document.getElementById('message-content');
+    const messageOkBtn = document.getElementById('message-ok-btn');
+
+    // Profile Modal elements
+    const profileModalBtn = document.getElementById('profile-modal-btn');
+    const profileModalOverlay = document.getElementById('profile-modal-overlay');
+    const profileCloseBtn = document.getElementById('profile-close-btn');
+    const userIdDisplay = document.getElementById('user-id-display');
+    const userEmailDisplay = document.getElementById('user-email-display');
+    const userDashboardsList = document.getElementById('user-dashboards-list');
+
+    // Contact Modal elements
+    const contactModalBtn = document.getElementById('contact-modal-btn');
+    const contactModalOverlay = document.getElementById('contact-modal-overlay');
+    const contactCloseBtn = document.getElementById('contact-close-btn');
+
+    // Footer links
+    const footerProfileLink = document.getElementById('footer-profile-link');
+    const footerContactLink = document.getElementById('footer-contact-link');
+
+    // Dummy user data and dashboards (for demonstration)
+    let currentUser = {
+        id: 'user_12345',
+        email: 'user@example.com',
+        dashboards: [
+            { name: 'Q1 Sales Performance', id: 'dash_001' },
+            { name: 'Marketing Campaign ROI', id: 'dash_002' }
+        ]
+    };
+
+    // Function to display a custom message box
+    function showMessageBox(message) {
+        messageContent.textContent = message;
+        messageBox.style.display = 'block';
+    }
+
+    // Hide message box when OK is clicked
+    messageOkBtn.addEventListener('click', () => {
+        messageBox.style.display = 'none';
+    });
+
+    uploadDataBtn.addEventListener('click', () => {
+        fileInput.click(); // Trigger the hidden file input click
+    });
+
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const fileName = file.name;
+            const fileType = file.type;
+
+            // Basic check for file type
+            if (fileType === 'text/csv' ||
+                fileType === 'application/vnd.ms-excel' ||
+                fileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+
+                showMessageBox(`File selected: ${fileName}. Processing...`);
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const fileContent = e.target.result;
+                    // In a real application, you would parse this content
+                    // For CSV: use Papa Parse library
+                    // For Excel: use SheetJS (xlsx) library
+                    // Example: console.log(fileContent);
+
+                    // Simulate adding a new dashboard to the user's list
+                    currentUser.dashboards.push({
+                        name: `New Dashboard from ${fileName}`,
+                        id: `dash_${Date.now()}`
+                    });
+
+                    // For demonstration, let's simulate processing and redirect
+                    setTimeout(() => {
+                        showMessageBox(`Dashboard generated for ${fileName}! Redirecting...`);
+                        // In a real app, you'd pass the parsed data to the dashboard page
+                        window.location.href = 'dashboard.html'; // Redirect to dashboard
+                    }, 2000); // Simulate a 2-second processing time
+
+                };
+                reader.onerror = function(e) {
+                    showMessageBox(`Error reading file: ${e.target.error.name}`);
+                };
+
+                // Read file as text for CSV, or as ArrayBuffer for Excel
+                if (fileType === 'text/csv') {
+                    reader.readAsText(file);
+                } else {
+                    reader.readAsArrayBuffer(file);
+                    showMessageBox("For Excel files, a dedicated library (like SheetJS) is needed to parse the data. This example only reads the file buffer.");
+                }
+
+            } else {
+                showMessageBox("Please upload a CSV or Excel file (.csv, .xls, .xlsx).");
+            }
+        } else {
+            showMessageBox("No file selected.");
+        }
+    });
+
+    // Profile Modal Logic
+    profileModalBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        userIdDisplay.textContent = currentUser.id;
+        userEmailDisplay.textContent = currentUser.email;
+
+        userDashboardsList.innerHTML = ''; // Clear previous list
+        if (currentUser.dashboards.length > 0) {
+            currentUser.dashboards.forEach(dashboard => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-file-alt"></i> ${dashboard.name}`;
+                userDashboardsList.appendChild(li);
+            });
+        } else {
+            const li = document.createElement('li');
+            li.textContent = "You have no records.";
+            userDashboardsList.appendChild(li);
+        }
+        profileModalOverlay.style.display = 'flex';
+    });
+
+    profileCloseBtn.addEventListener('click', () => {
+        profileModalOverlay.style.display = 'none';
+    });
+
+    profileModalOverlay.addEventListener('click', (event) => {
+        if (event.target === profileModalOverlay) {
+            profileModalOverlay.style.display = 'none';
+        }
+    });
+
+    // Contact Modal Logic
+    contactModalBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        contactModalOverlay.style.display = 'flex';
+    });
+
+    contactCloseBtn.addEventListener('click', () => {
+        contactModalOverlay.style.display = 'none';
+    });
+
+    contactModalOverlay.addEventListener('click', (event) => {
+        if (event.target === contactModalOverlay) {
+            contactModalOverlay.style.display = 'none';
+        }
+    });
+
+    // Footer Profile Link Logic
+    footerProfileLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        profileModalBtn.click(); // Trigger the click on the main profile button
+    });
+
+    // Footer Contact Link Logic
+    footerContactLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        contactModalBtn.click(); // Trigger the click on the main contact button
+    });
+</script>
+</body>
+</html>
